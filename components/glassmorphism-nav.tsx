@@ -86,12 +86,12 @@ export function GlassmorphismNav() {
                 href="/"
                 className="flex items-center hover:scale-105 transition-transform duration-200 cursor-pointer"
               >
-                <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center">
+                <div className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
                   <Image
                     src="/images/logo.png"
                     alt="Airya"
-                    width={64}
-                    height={64}
+                    width={80}
+                    height={80}
                     className="w-full h-full object-contain"
                   />
                 </div>

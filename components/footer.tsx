@@ -60,7 +60,15 @@ export function Footer() {
 
       <div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
         <AnimatedContainer className="space-y-4">
-          <Image src="/images/logo.png" alt="Airya Logo" width={96} height={96} className="size-24" />
+          <div className="w-32 h-32 md:w-40 md:h-40 border border-white/10 rounded-2xl overflow-hidden bg-white/5 flex items-center justify-center p-4 mb-2">
+            <Image
+              src="/images/logo.png"
+              alt="Airya Logo"
+              width={160}
+              height={160}
+              className="w-full h-full object-contain"
+            />
+          </div>
           <div className="text-muted-foreground mt-8 text-sm md:mt-0 md:block hidden">
             <p>© {new Date().getFullYear()} Airya. All rights reserved.</p>
           </div>
