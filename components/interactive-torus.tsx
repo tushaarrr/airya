@@ -45,7 +45,7 @@ export function InteractiveTorus() {
       powerPreference: "high-performance" // Ensure GPU uses high perf mode
     })
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setPixelRatio(isMobileRef.current ? Math.min(window.devicePixelRatio, 1.5) : Math.min(window.devicePixelRatio, 2))
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.2
     containerRef.current.appendChild(renderer.domElement)
@@ -76,7 +76,7 @@ export function InteractiveTorus() {
       bevelEnabled: true,
       bevelThickness: 0.05,
       bevelSize: 0.05,
-      bevelSegments: 4 // Reduced for performance
+      bevelSegments: isMobileRef.current ? 2 : 4 // Reduced for performance
     }
 
     const segmentGeometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
@@ -95,7 +95,7 @@ export function InteractiveTorus() {
       side: THREE.DoubleSide
     })
 
-    const count = 40
+    const count = isMobileRef.current ? 24 : 40 // Reduced count for mobile
     const radius = 2.5
     const mesh = new THREE.InstancedMesh(segmentGeometry, material, count)
     scene.add(mesh)

@@ -22,7 +22,7 @@ import {
 function AISystemCard() {
     return (
         <div className="relative group">
-            <div className="absolute inset-0 bg-white/5 blur-2xl group-hover:bg-white/10 transition-colors duration-500 rounded-3xl" />
+            <div className="absolute inset-0 bg-white/5 blur-xl md:blur-2xl group-hover:bg-white/10 transition-colors duration-500 rounded-3xl" />
             <div className="relative bg-zinc-950 border border-white/10 rounded-3xl p-8 h-full transition-all duration-500 group-hover:border-white/20">
                 <div className="flex items-center gap-3 mb-8">
                     <div className="p-2 bg-white/5 rounded-lg border border-white/10">
@@ -70,7 +70,8 @@ function AISystemCard() {
                                     delay: i * 0.5,
                                     ease: "easeInOut"
                                 }}
-                                className="w-1 bg-white rounded-full"
+                                viewport={{ once: false }}
+                                className="w-1 bg-white rounded-full will-change-[height,opacity]"
                             />
                         ))}
                     </div>
@@ -149,7 +150,8 @@ function SoftwareSystemCard() {
                                 <motion.div
                                     animate={{ opacity: [0.2, 1, 0.2] }}
                                     transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                                    className="size-12 border border-white/20 rounded-md bg-white/5"
+                                    viewport={{ once: false }}
+                                    className="size-12 border border-white/20 rounded-md bg-white/5 will-change-opacity"
                                 />
                             </div>
                         </div>

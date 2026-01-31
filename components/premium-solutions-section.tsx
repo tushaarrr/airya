@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ScrollReveal } from "./scroll-reveal"
 import { TextReveal } from "./text-reveal"
 import { Plus, Minus, Check } from "lucide-react"
@@ -18,13 +18,22 @@ interface CardProps {
 }
 
 export const RedesignedMetallicCard = ({ tag, title, description, price, items, ctaText, isExpanded, onClick, type = "info" }: CardProps) => {
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
+
     return (
         <div
             className="group relative h-full w-full cursor-pointer flex flex-col items-center justify-center p-4 min-h-[600px]"
             onClick={onClick}
         >
             {/* The Outer Glow Backdrop */}
-            <div className="absolute inset-4 bg-white/[0.03] blur-[120px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+            <div className={`absolute inset-4 bg-white/[0.03] ${isMobile ? 'blur-[40px]' : 'blur-[120px]'} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000`} />
 
             {/* Electric Shredded Border SVG */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-visible">
@@ -34,13 +43,13 @@ export const RedesignedMetallicCard = ({ tag, title, description, price, items, 
                     className="w-full h-full overflow-visible"
                 >
                     <defs>
-                        <filter id="shredded" x="-30%" y="-30%" width="160%" height="160%">
-                            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="6" seed="3" result="noise" />
-                            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+                        <filter id={`shredded-${title.replace(/\s+/g, '-')}`} x="-15%" y="-15%" width="130%" height="130%">
+                            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves={isMobile ? 2 : 6} seed="3" result="noise" />
+                            <feDisplacementMap in="SourceGraphic" in2="noise" scale={isMobile ? 1.5 : 2.5} xChannelSelector="R" yChannelSelector="G" />
                         </filter>
-                        <filter id="shreddedSecondary" x="-30%" y="-30%" width="160%" height="160%">
-                            <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="4" seed="5" result="noise" />
-                            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G" />
+                        <filter id={`shreddedSecondary-${title.replace(/\s+/g, '-')}`} x="-15%" y="-15%" width="130%" height="130%">
+                            <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves={isMobile ? 1 : 4} seed="5" result="noise" />
+                            <feDisplacementMap in="SourceGraphic" in2="noise" scale={isMobile ? 0.8 : 1.5} xChannelSelector="R" yChannelSelector="G" />
                         </filter>
                     </defs>
 
@@ -50,7 +59,7 @@ export const RedesignedMetallicCard = ({ tag, title, description, price, items, 
                         fill="none"
                         strokeWidth="4"
                         vectorEffect="non-scaling-stroke"
-                        style={{ filter: "blur(12px)" }}
+                        style={isMobile ? { display: 'none' } : { filter: "blur(12px)" }}
                     />
 
                     <path
@@ -59,7 +68,7 @@ export const RedesignedMetallicCard = ({ tag, title, description, price, items, 
                         fill="none"
                         strokeWidth="0.8"
                         vectorEffect="non-scaling-stroke"
-                        filter="url(#shredded)"
+                        filter={`url(#shredded-${title.replace(/\s+/g, '-')})`}
                     />
                     <path
                         d="M 10,10 L 90,10 L 90,140 L 10,140 Z"
@@ -67,7 +76,7 @@ export const RedesignedMetallicCard = ({ tag, title, description, price, items, 
                         fill="none"
                         strokeWidth="0.4"
                         vectorEffect="non-scaling-stroke"
-                        filter="url(#shreddedSecondary)"
+                        filter={`url(#shreddedSecondary-${title.replace(/\s+/g, '-')})`}
                         style={{ transform: 'translateX(0.5px) translateY(0.5px)' }}
                     />
                 </svg>
