@@ -47,14 +47,14 @@ const AIDemo = () => {
     useEffect(() => {
         const sequence = async () => {
             await new Promise(r => setTimeout(r, 2000))
-            setMessages(prev => prev.map(m => m.type === 'wait' ? { id: 2, type: 'user', text: 'What is the current system load?' } : m))
+            setMessages(prev => prev.map(m => m.type === 'wait' ? { id: 3, type: 'user', text: 'What is the current system load?' } : m))
 
             await new Promise(r => setTimeout(r, 1000))
-            setMessages(prev => [...prev, { id: 3, type: 'wait', text: '...' }])
+            setMessages(prev => [...prev, { id: 4, type: 'wait', text: '...' }])
 
             await new Promise(r => setTimeout(r, 1500))
             setMessages(prev => prev.filter(m => m.type !== 'wait').concat({
-                id: 3, type: 'bot', text: 'Load is optimal. Handling 45 active threads securely.'
+                id: 5, type: 'bot', text: 'Load is optimal. Handling 45 active threads securely.'
             }))
         }
         sequence()
