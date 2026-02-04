@@ -53,19 +53,18 @@ export function Footer() {
           />
         </Link>
 
-        {/* Links - 2 on top, 1 centered below on mobile */}
-        <div className="w-full max-w-3xl">
-          {/* Top row: Product & Company side by side */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 md:gap-16">
-            {footerLinks.slice(0, 2).map((section) => (
-              <div key={section.label} className="flex flex-col items-center text-center space-y-3">
-                <h3 className="text-xs md:text-sm font-medium text-white/40 tracking-widest uppercase">{section.label}</h3>
-                <ul className="space-y-2 md:space-y-3">
+        {/* Links - Centered Layout */}
+        <div className="w-full flex justify-center">
+          <div className="flex flex-col sm:flex-row gap-12 md:gap-24 lg:gap-32 text-center sm:text-left">
+            {footerLinks.map((section) => (
+              <div key={section.label} className="flex flex-col items-center sm:items-start space-y-4">
+                <h3 className="text-xs font-bold text-white tracking-[0.2em] uppercase mb-2">{section.label}</h3>
+                <ul className="space-y-3 flex flex-col items-center sm:items-start">
                   {section.links.map((link) => (
                     <li key={link.title}>
                       <Link
                         href={link.href}
-                        className="text-sm text-gray-400 hover:text-white transition-colors duration-200 font-light py-1 inline-block"
+                        className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
                       >
                         {link.title}
                       </Link>
@@ -74,14 +73,16 @@ export function Footer() {
                 </ul>
               </div>
             ))}
-            {/* Social removed */}
           </div>
         </div>
 
         {/* Copyright - Bottom */}
-        <div className="text-xs text-gray-500 font-mono pt-6 border-t border-white/5 w-full text-center space-y-1">
+        <div className="text-xs text-gray-500 font-mono pt-8 border-t border-white/5 w-full text-center space-y-2">
+          <p className="tracking-widest uppercase text-[10px] text-white/20 mb-4">Thinking, Implemented.</p>
           <p>© {new Date().getFullYear()} Airya Inc. All rights reserved.</p>
-          <p className="text-gray-600">Built within Cerebramha</p>
+          <p className="text-gray-600">
+            Built within <a href="https://cerebramha.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline decoration-gray-800 underline-offset-4 hover:decoration-white">Cerebramha</a>
+          </p>
         </div>
 
       </div>
