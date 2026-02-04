@@ -7,10 +7,12 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState, Suspense } from "react"
+import { useForm, ValidationError } from "@formspree/react"
 
 function ContactForm() {
     const searchParams = useSearchParams()
     const [message, setMessage] = useState("")
+    const [state, handleSubmit] = useForm("mkozdkqq")
 
     useEffect(() => {
         const plan = searchParams.get("plan")
@@ -26,26 +28,64 @@ function ContactForm() {
         }
     }, [searchParams])
 
+    if (state.succeeded) {
+        return (
+            <div className="text-center py-20 space-y-6">
+                <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto">
+                    <ArrowRight className="w-10 h-10 text-green-500 rotate-[-45deg]" />
+                </div>
+                <h3 className="text-3xl font-bold text-white">Message received.</h3>
+                <p className="text-gray-400 max-w-sm mx-auto">
+                    Thanks for reaching out. We'll get back to you within 24 hours.
+                </p>
+                <div className="pt-8">
+                    <p className="text-xs text-gray-500">Redirecting to home in 30s...</p>
+                </div>
+            </div>
+        )
+    }
+
     return (
-        <form className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-8">
+            {state.errors && state.errors.length > 0 && (
+                <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-xl text-red-400 text-sm">
+                    Unable to send message. Please double check your details.
+                </div>
+            )}
+
             <div className="space-y-6">
                 <div className="space-y-2">
-                    <label htmlFor="name" className="text-sm font-medium text-gray-400 ml-1">Name</label>
+                    <label htmlFor="email" className="text-sm font-medium text-gray-400 ml-1">Email Address</label>
                     <input
-                        type="text"
-                        id="name"
+                        id="email"
+                        type="email"
+                        name="email"
+                        required
                         className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-gray-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all font-light"
-                        placeholder="Your name"
+                        placeholder="name@company.com"
+                    />
+                    <ValidationError
+                        prefix="Email"
+                        field="email"
+                        errors={state.errors}
+                        className="text-red-400 text-xs ml-1"
                     />
                 </div>
 
                 <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-medium text-gray-400 ml-1">Email</label>
+                    <label htmlFor="name" className="text-sm font-medium text-gray-400 ml-1">Name (Optional)</label>
                     <input
-                        type="email"
-                        id="email"
+                        id="name"
+                        type="text"
+                        name="name"
                         className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-gray-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all font-light"
-                        placeholder="name@company.com"
+                        placeholder="Your name"
+                    />
+                    <ValidationError
+                        prefix="Name"
+                        field="name"
+                        errors={state.errors}
+                        className="text-red-400 text-xs ml-1"
                     />
                 </div>
 
@@ -53,21 +93,31 @@ function ContactForm() {
                     <label htmlFor="message" className="text-sm font-medium text-gray-400 ml-1">Message</label>
                     <textarea
                         id="message"
+                        name="message"
+                        required
                         rows={5}
                         className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-gray-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all font-light resize-none"
                         placeholder="Tell us about the system you want to build..."
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                     />
+                    <ValidationError
+                        prefix="Message"
+                        field="message"
+                        errors={state.errors}
+                        className="text-red-400 text-xs ml-1"
+                    />
                 </div>
             </div>
 
             <Button
+                type="submit"
+                disabled={state.submitting}
                 size="lg"
-                className="w-full bg-white text-black hover:bg-gray-200 rounded-xl py-6 text-base font-medium transition-transform active:scale-[0.98]"
+                className="w-full bg-white text-black hover:bg-gray-200 rounded-xl py-6 text-base font-medium transition-transform active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
             >
-                Start the conversation
-                <ArrowRight className="ml-2 w-4 h-4" />
+                {state.submitting ? "Sending..." : "Start the conversation"}
+                {!state.submitting && <ArrowRight className="ml-2 w-4 h-4" />}
             </Button>
 
             <p className="text-center text-xs text-gray-600">

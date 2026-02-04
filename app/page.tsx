@@ -12,6 +12,7 @@ import { Footer } from "@/components/footer"
 import { BlogPreviewSection } from "@/components/blog-preview-section"
 import { FAQSection } from "@/components/premium-solutions-section"
 import { getLatestBlogs } from "@/lib/blog"
+import { LandingPricingSection } from "@/components/landing-pricing-section"
 
 import { AiSystemsSection } from "@/components/ai-systems-section"
 
@@ -36,6 +37,7 @@ export default async function HomePage() {
 
           <ProblemSolutionSection />
           <TestimonialsSection />
+          <LandingPricingSection />
           <BlogPreviewSection posts={latestPosts} />
           <CTASection />
           <Footer />
